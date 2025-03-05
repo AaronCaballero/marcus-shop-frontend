@@ -15,7 +15,7 @@ export default function NavBar() {
 
   return (
     <nav className='bg-white shadow-md m-5 rounded-md'>
-      <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
+      <div className='px-6'>
         <div className='flex items-center justify-center h-16'>
           <div className='flex-1 flex items-center'>
             <Link
@@ -26,7 +26,7 @@ export default function NavBar() {
             </Link>
           </div>
 
-          <div className='flex space-x-4 absolute left-1/2 transform -translate-x-1/2'>
+          <div className='flex gap-x-4 absolute left-1/2 transform -translate-x-1/2'>
             {centerItems.map((item) => (
               <Link
                 key={item.href}
@@ -46,7 +46,7 @@ export default function NavBar() {
             ))}
           </div>
 
-          <div className='flex-1 flex justify-end items-center space-x-4'>
+          <div className='flex-1 flex justify-end items-center gap-x-4'>
             {rightItems.map((item) => (
               <Link
                 key={item.href}
