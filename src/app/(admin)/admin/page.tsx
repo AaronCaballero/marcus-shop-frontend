@@ -1,5 +1,4 @@
-import Image from 'next/image';
-import Link from 'next/link';
+import Footer from '@/src/components/Footer';
 
 export default function Home() {
   return (
@@ -9,22 +8,7 @@ export default function Home() {
           <span>Admin page</span>
         </main>
 
-        <footer className='row-start-3 flex gap-6 flex-wrap items-center justify-center'>
-          <Link
-            href='/'
-            className='flex items-center gap-2 hover:underline hover:underline-offset-4'
-          >
-            <Image
-              aria-hidden
-              src='/home.svg'
-              alt='Home icon'
-              width={16}
-              height={16}
-            />
-            <span className='icon-[ion--home]'></span>
-            Home
-          </Link>
-        </footer>
+        <Footer />
       </div>
     </div>
   );
