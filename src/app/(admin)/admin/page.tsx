@@ -1,5 +1,3 @@
-import Footer from '@/src/components/Footer';
-
 export default function Home() {
   return (
     <div className='font-[family-name:var(--font-geist-sans)]'>
@@ -7,8 +5,6 @@ export default function Home() {
         <main className='flex flex-col gap-8 row-start-2 items-center sm:items-start'>
           <span>Admin page</span>
         </main>
-
-        <Footer />
       </div>
     </div>
   );
