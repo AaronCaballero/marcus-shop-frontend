@@ -14,7 +14,7 @@ export default function NavBar() {
   const rightItems = [{ href: '/admin', label: 'Admin', icon: 'options.svg' }];
 
   return (
-    <nav className='absolute top-0 left-0 right-0 bg-white shadow-md m-5 rounded-md'>
+    <nav className='fixed top-0 left-0 right-0 bg-white shadow-md m-5 rounded-md z-999999'>
       <div className='px-6'>
         <div className='flex items-center justify-center h-16'>
           <div className='flex-1 flex items-center'>

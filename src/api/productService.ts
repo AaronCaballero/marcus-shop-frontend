@@ -4,17 +4,11 @@ import { httpService } from './httpService';
 const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/product`;
 
 export const productService = {
-  async createProduct(
-    createProduct: CreateProduct,
-    token: string
-  ): Promise<any | null> {
+  async create(createProduct: CreateProduct): Promise<any | null> {
     try {
       const url = `${API_URL}/create`;
-      const headers = {
-        Authorization: `Bearer ${token}`,
-      };
 
-      const data = await httpService.post(url, createProduct, headers);
+      const data = await httpService.post(url, createProduct);
 
       return data as Product;
     } catch (error) {
@@ -23,28 +17,22 @@ export const productService = {
     }
   },
 
-  async getProducts(token: any): Promise<Product[] | null> {
+  async getAll(): Promise<Product[] | null> {
     try {
       const url = `${API_URL}`;
-      const headers = {
-        Authorization: `Bearer ${token}`,
-      };
 
-      return await httpService.get(url, headers);
+      return await httpService.get(url);
     } catch (error) {
       console.error('Error getting products:', error);
       return null;
     }
   },
 
-  async getProduct(productId: string, token: any): Promise<Product | null> {
+  async getOne(productId: string): Promise<Product | null> {
     try {
       const url = `${API_URL}/${productId}`;
-      const headers = {
-        Authorization: `Bearer ${token}`,
-      };
 
-      const data = await httpService.get(url, headers);
+      const data = await httpService.get(url);
 
       return data as Product;
     } catch (error) {
