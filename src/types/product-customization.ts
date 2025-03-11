@@ -33,3 +33,15 @@ export enum ProductCustomizationType {
   Material = 'material',
   AditionalFeature = 'aditional_feature',
 }
+
+export const ProductCustomizationTypesNames = {
+  frame_type: 'Frame type',
+  frame_finish: 'Frame finish',
+  wheels: 'Wheels',
+  rim_color: 'Rim color',
+  chain: 'Chain',
+  color: 'Color',
+  size: 'Size',
+  material: 'Material',
+  aditional_feature: 'Aditional feature',
+};

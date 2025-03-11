@@ -11,6 +11,7 @@ export interface Product extends Timestampable {
   stock: number;
   isCustomizable: boolean;
   customizations?: ProductCustomization[];
+  groupedCustomizations?: { [key: string]: ProductCustomization[] } | {};
 }
 
 export interface CreateProduct {

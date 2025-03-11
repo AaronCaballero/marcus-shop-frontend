@@ -44,11 +44,15 @@ const ProductCard: React.FC<CardProps> = ({ product }) => {
 const ProductGrid: React.FC<GridProps> = ({ products }) => {
   return (
     <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
-      {products.map((product) => (
-        <Link href={`/products/${product.id}`} key={product.id}>
-          <ProductCard product={product} />
-        </Link>
-      ))}
+      {products?.length > 0 ? (
+        products.map((product) => (
+          <Link href={`/products/${product.id}`} key={product.id}>
+            <ProductCard product={product} />
+          </Link>
+        ))
+      ) : (
+        <span>No products found</span>
+      )}
     </div>
   );
 };

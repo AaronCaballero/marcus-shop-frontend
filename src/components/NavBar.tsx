@@ -6,7 +6,7 @@ export default function NavBar() {
   const pathname = usePathname();
 
   const centerItems = [
-    { href: '/', label: 'Home', icon: '/home.svg' },
+    { href: '/#', label: 'Home', icon: '/home.svg' },
     { href: '/products', label: 'Products', icon: 'shopping-bag.svg' },
     { href: '/cart', label: 'Cart', icon: 'shopping-cart.svg' },
   ];
@@ -34,7 +34,7 @@ export default function NavBar() {
                 className={`
                   px-3 py-2 rounded-md text-sm font-medium
                   ${
-                    pathname === item.href
+                    pathname.includes(item.href)
                       ? 'bg-gray-200 text-gray-900'
                       : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
                   }
@@ -54,7 +54,7 @@ export default function NavBar() {
                 className={`
                   px-3 py-2 rounded-md text-sm font-medium
                   ${
-                    pathname === item.href
+                    pathname.includes(item.href)
                       ? 'bg-gray-200 text-gray-900'
                       : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
                   }
