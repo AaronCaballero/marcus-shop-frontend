@@ -94,9 +94,9 @@ export default function ProductDetailPage() {
     router.push('/cart');
   };
 
-  // Reduce customizations stock with the cart items
+  //TODO: Reduce customizations stock with the cart items
 
-  // Check all required customizations before adding to cart
+  //TODO: Check all required customizations before adding to cart
 
   const handleSelectCustomization = (
     type: string,

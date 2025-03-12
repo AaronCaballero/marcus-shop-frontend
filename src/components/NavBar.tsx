@@ -16,7 +16,7 @@ export default function NavBar() {
   ];
 
   const rightItems = [{ href: '/admin', label: 'Admin' }];
-  const rightItemsAdmin = [{ href: '/#', label: 'Users' }];
+  const rightItemsAdmin = [{ href: '/#', label: 'Customer' }];
 
   return (
     <div className='p-5 fixed top-0 left-0 right-0 nav-bar-bg z-999999'>

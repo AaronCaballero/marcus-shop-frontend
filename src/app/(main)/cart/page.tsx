@@ -58,7 +58,7 @@ export default function CartPage() {
     const isStillStock =
       cartItemStock > 0 && cartItemStock < (productStock ?? 2);
 
-    // Also check every customization stock
+    //TODO: Also check every customization stock
 
     if (isNewQuantityLess || isStillStock) {
       const cartItem: CartItem = cartItems.find((item: any) => item.id === id)!;
