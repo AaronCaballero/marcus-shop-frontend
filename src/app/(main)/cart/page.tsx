@@ -43,12 +43,24 @@ export default function CartPage() {
   const handleQuantityChange = (id: string, newQuantity: number) => {
     const cartItemId = id.split('#')[0];
 
-    const stock = products.find((item: any) => item.id === cartItemId)?.stock;
-    console.log(stock);
-    console.log(newQuantity);
+    const cartItemStock = cartItems.reduce((total: number, item: CartItem) => {
+      return item.id.split('#')[0] === cartItemId
+        ? total + item.quantity
+        : total;
+    }, 0);
+    const productStock = products.find(
+      (item: any) => item.id === cartItemId
+    )?.stock;
+
+    const isNewQuantityLess =
+      cartItems.find((item: CartItem) => item.id === id)?.quantity! >
+      newQuantity;
+    const isStillStock =
+      cartItemStock > 0 && cartItemStock < (productStock ?? 2);
+
     // Also check every customization stock
 
-    if (newQuantity > 0 && newQuantity <= (stock ?? 1)) {
+    if (isNewQuantityLess || isStillStock) {
       const cartItem: CartItem = cartItems.find((item: any) => item.id === id)!;
       if (cartItem) updateQuantity(id, newQuantity);
     }
@@ -192,7 +204,7 @@ export default function CartPage() {
 
                           <button
                             onClick={() => handleRemoveItem(item.id)}
-                            className='text-red-500 hover:text-red-700'
+                            className='text-red-500 hover:text-red-700 cursor-pointer'
                           >
                             Remove
                           </button>

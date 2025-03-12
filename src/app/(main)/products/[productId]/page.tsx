@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { productService } from '../../../../api/productService';
 import StatusBadge from '../../../../components/StatusBadge';
 import { useCart } from '../../../../context/CartContext';
+import { CartItem } from '../../../../types/cart';
 import { Product, ProductStatus } from '../../../../types/product';
 import {
   ProductCustomization,
@@ -16,7 +17,8 @@ import { ProhibitedCustomization } from '../../../../types/prohibited-customizat
 export default function ProductDetailPage() {
   const router = useRouter();
   const { productId } = useParams();
-  const { addToCart } = useCart();
+  const { cartItems, addToCart } = useCart();
+  const [stock, setStock] = useState<number>(0);
 
   const [product, setProduct] = useState<Product | null>(null);
   const [prohibitedCustomizations, setProhibitedCustomizations] = useState<
@@ -43,6 +45,10 @@ export default function ProductDetailPage() {
   }, []);
 
   useEffect(() => {
+    calculateStock();
+  }, [product]);
+
+  useEffect(() => {
     handleProhibitedCustomizations();
     calculateTotalPrice();
   }, [selectedCustomizations]);
@@ -63,10 +69,20 @@ export default function ProductDetailPage() {
       });
   };
 
+  const calculateStock = () => {
+    const cartItemStock = cartItems.reduce((total: number, item: CartItem) => {
+      return item.id.split('#')[0] === productId
+        ? total + item.quantity
+        : total;
+    }, 0);
+
+    setStock(product?.stock! - cartItemStock);
+  };
+
   const handleAddToCart = (item: Product) => {
     addToCart({
       ...item,
-      id: productId + '#' + item.stock,
+      id: productId + '#' + stock,
       customizations:
         Object.values(selectedCustomizations).map(
           (item: any) => item.customizationId
@@ -78,7 +94,7 @@ export default function ProductDetailPage() {
     router.push('/cart');
   };
 
-  // Reduce stock with the cart items
+  // Reduce customizations stock with the cart items
 
   // Check all required customizations before adding to cart
 
@@ -212,21 +228,18 @@ export default function ProductDetailPage() {
 
                   <button
                     className={`w-full py-3 px-4 rounded-md font-medium ${
-                      product.status === ProductStatus.Active &&
-                      product.stock > 0
+                      product.status === ProductStatus.Active && stock > 0
                         ? 'bg-blue-500 hover:bg-blue-600 text-white cursor-pointer'
                         : 'bg-gray-300 text-gray-500'
                     }`}
                     disabled={
-                      product.status !== ProductStatus.Active ||
-                      product.stock === 0
+                      product.status !== ProductStatus.Active || stock === 0
                     }
                     onClick={() => {
                       handleAddToCart(product);
                     }}
                   >
-                    {product.status === ProductStatus.Active &&
-                    product.stock > 0
+                    {product.status === ProductStatus.Active && stock > 0
                       ? 'Add to card'
                       : 'Not available'}
                   </button>
@@ -251,8 +264,10 @@ export default function ProductDetailPage() {
                 </div>
 
                 <div className='text-sm text-gray-500 mb-4'>
-                  {product.stock > 0
-                    ? `Stock: ${product.stock} available units`
+                  {stock > 0
+                    ? `Stock: ${
+                        stock >= 0 ? stock : product.stock
+                      } available units`
                     : 'Without stock'}
                 </div>
 
