@@ -42,6 +42,19 @@ export const productService = {
     }
   },
 
+  async delete(productId: string): Promise<boolean | null> {
+    try {
+      const url = `${API_URL}/${productId}`;
+
+      const data = await httpService.delete(url);
+      
+      return data as boolean;
+    } catch (error) {
+      console.error('Error deleting the product:', error);
+      return null;
+    }
+  },
+
   async getProhibitedCustomizationsByProduct(
     productId: string
   ): Promise<ProhibitedCustomization[] | null> {
