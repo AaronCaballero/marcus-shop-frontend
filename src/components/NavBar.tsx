@@ -14,24 +14,25 @@ export default function NavBar() {
   const rightItems = [{ href: '/admin', label: 'Admin', icon: 'options.svg' }];
 
   return (
-    <nav className='fixed top-0 left-0 right-0 bg-white shadow-md m-5 rounded-md z-999999'>
-      <div className='px-6'>
-        <div className='flex items-center justify-center h-16'>
-          <div className='flex-1 flex items-center'>
-            <Link
-              href='/'
-              className='text-2xl font-bold text-gray-800 hover:text-gray-600 transition duration-300'
-            >
-              Marcus Shop
-            </Link>
-          </div>
-
-          <div className='flex gap-x-4 absolute left-1/2 transform -translate-x-1/2'>
-            {centerItems.map((item) => (
+    <div className='p-5 fixed top-0 left-0 right-0 nav-bar-bg z-999999'>
+      <nav className='fixed top-0 left-0 right-0 bg-white shadow-md m-5 rounded-md'>
+        <div className='px-6'>
+          <div className='flex items-center justify-center h-16'>
+            <div className='flex-1 flex items-center'>
               <Link
-                key={item.href}
-                href={item.href}
-                className={`
+                href='/'
+                className='text-2xl font-bold text-gray-800 hover:text-gray-600 transition duration-300'
+              >
+                Marcus Shop
+              </Link>
+            </div>
+
+            <div className='flex gap-x-4 absolute left-1/2 transform -translate-x-1/2'>
+              {centerItems.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`
                   px-3 py-2 rounded-md text-sm font-medium
                   ${
                     pathname.includes(item.href)
@@ -40,18 +41,18 @@ export default function NavBar() {
                   }
                   transition duration-300
                 `}
-              >
-                {item.label}
-              </Link>
-            ))}
-          </div>
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </div>
 
-          <div className='flex-1 flex justify-end items-center gap-x-4'>
-            {rightItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`
+            <div className='flex-1 flex justify-end items-center gap-x-4'>
+              {rightItems.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`
                   px-3 py-2 rounded-md text-sm font-medium
                   ${
                     pathname.includes(item.href)
@@ -60,13 +61,14 @@ export default function NavBar() {
                   }
                   transition duration-300
                 `}
-              >
-                {item.label}
-              </Link>
-            ))}
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+    </div>
   );
 }
