@@ -1,4 +1,5 @@
 import { CreateProduct, Product } from '../types/product';
+import { ProhibitedCustomization } from '../types/prohibited-customization';
 import { httpService } from './httpService';
 
 const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/product`;
@@ -35,6 +36,21 @@ export const productService = {
       const data = await httpService.get(url);
 
       return data as Product;
+    } catch (error) {
+      console.error('Error getting product:', error);
+      return null;
+    }
+  },
+
+  async getProhibitedCustomizationsByProduct(
+    productId: string
+  ): Promise<ProhibitedCustomization[] | null> {
+    try {
+      const url = `${API_URL}/${productId}/prohibited-customization`;
+
+      const data = await httpService.get(url);
+
+      return data as ProhibitedCustomization[];
     } catch (error) {
       console.error('Error getting product:', error);
       return null;

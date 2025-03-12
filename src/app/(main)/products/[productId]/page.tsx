@@ -10,17 +10,26 @@ import {
   ProductCustomization,
   ProductCustomizationTypesNames,
 } from '../../../../types/product-customization';
+import { ProhibitedCustomization } from '../../../../types/prohibited-customization';
 
 export default function ProductDetailPage() {
   const router = useRouter();
   const { productId } = useParams();
 
   const [product, setProduct] = useState<Product | null>(null);
+  const [prohibitedCustomizations, setProhibitedCustomizations] = useState<
+    ProhibitedCustomization[]
+  >([]);
+  const [totalPrice, setTotalPrice] = useState<number>(0);
+
   const [customizationsByType, setCustomizationsByType] = useState<
     { [key: string]: ProductCustomization[] } | {}
   >({});
   const [selectedCustomizations, setSelectedCustomizations] = useState(
     {} as any
+  );
+  const [blockedCustomizations, setBlockedCustomizations] = useState<string[]>(
+    []
   );
 
   const [showTooltip, setShowTooltip] = useState(false);
@@ -28,13 +37,28 @@ export default function ProductDetailPage() {
 
   useEffect(() => {
     getProduct();
+    getProhibitedCustomizations();
   }, []);
+
+  useEffect(() => {
+    handleProhibitedCustomizations();
+    calculateTotalPrice();
+  }, [selectedCustomizations]);
 
   const getProduct = () => {
     productService.getOne(productId as string).then((response) => {
       setProduct(response);
+      setTotalPrice(response?.price ?? 0);
       setCustomizationsByType(response?.groupedCustomizations ?? {});
     });
+  };
+
+  const getProhibitedCustomizations = () => {
+    productService
+      .getProhibitedCustomizationsByProduct(productId as string)
+      .then((response) => {
+        setProhibitedCustomizations(response ?? []);
+      });
   };
 
   const handleSelectCustomization = (
@@ -57,18 +81,69 @@ export default function ProductDetailPage() {
     }
   };
 
+  const getProhibitedCombinations = (customizationId: string): string[] => {
+    return prohibitedCustomizations
+      .filter((item) => item.customizationIds?.includes(customizationId))
+      .flatMap(
+        (item) =>
+          item.customizationIds?.filter((id) => id !== customizationId) || []
+      );
+  };
+
+  const handleProhibitedCustomizations = () => {
+    const blockCustomizations = Object.values(selectedCustomizations).flatMap(
+      (customization: any) => {
+        const res = getProhibitedCombinations(customization.customizationId);
+        return customization.customizationId ? res : [];
+      }
+    );
+
+    setBlockedCustomizations(blockCustomizations);
+  };
+
   const calculateTotalPrice = () => {
     if (!product) return 0;
 
-    let totalPrice = product.price ?? 0;
+    let price = product.price ?? 0;
 
     if (product.isCustomizable) {
       Object.values(selectedCustomizations).forEach((customization: any) => {
-        totalPrice += customization.price;
+        price += customization.price;
       });
     }
 
-    return totalPrice.toFixed(2);
+    setTotalPrice(price);
+  };
+
+  const stockTooltip = (customization: ProductCustomization) => {
+    return (
+      <>
+        {showTooltip &&
+          tooltipKey === customization.id &&
+          customization.stock < 1 && (
+            <div className='absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-gray-500 text-white px-2 py-1 rounded w-42 text-center text-sm'>
+              Temporary out of stock
+              <div className='absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-500'></div>
+            </div>
+          )}
+      </>
+    );
+  };
+
+  const prohibitedToolpit = (customization: ProductCustomization) => {
+    return (
+      <>
+        {showTooltip &&
+          tooltipKey === customization.id &&
+          customization.stock > 0 &&
+          blockedCustomizations.includes(customization.id) && (
+            <div className='absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-red-500 text-white px-2 py-1 rounded w-66 text-center text-sm'>
+              Prohibited customization combination
+              <div className='absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-red-500'></div>
+            </div>
+          )}
+      </>
+    );
   };
 
   return (
@@ -109,7 +184,7 @@ export default function ProductDetailPage() {
                         Total price:
                       </span>
                       <span className='text-xl font-bold text-blue-600'>
-                        {calculateTotalPrice()}€
+                        {totalPrice.toFixed(2)}€
                       </span>
                     </div>
                   </div>
@@ -183,19 +258,16 @@ export default function ProductDetailPage() {
                                   key={customization.id}
                                   className='relative'
                                 >
-                                  {showTooltip &&
-                                    tooltipKey === customization.id &&
-                                    customization.stock < 1 && (
-                                      <div className='absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-gray-500 text-white px-2 py-1 rounded w-42 text-center text-sm'>
-                                        Temporary out of stock
-                                        <div className='absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-500'></div>
-                                      </div>
-                                    )}
+                                  {stockTooltip(customization)}
+                                  {prohibitedToolpit(customization)}
 
                                   <button
                                     key={'button-' + customization.id}
                                     onClick={() =>
                                       customization.stock > 0 &&
+                                      !blockedCustomizations.includes(
+                                        customization.id
+                                      ) &&
                                       handleSelectCustomization(
                                         type,
                                         customization
@@ -207,7 +279,10 @@ export default function ProductDetailPage() {
                                         ? 'border-blue-500 bg-blue-50 text-blue-700'
                                         : 'border-gray-300 text-gray-700 hover:bg-gray-50'
                                     } ${
-                                      customization.stock < 1
+                                      customization.stock < 1 ||
+                                      blockedCustomizations.includes(
+                                        customization.id
+                                      )
                                         ? 'opacity-50'
                                         : 'cursor-pointer'
                                     }`}
