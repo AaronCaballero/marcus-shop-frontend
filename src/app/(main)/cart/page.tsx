@@ -71,7 +71,7 @@ export default function CartPage() {
   };
 
   const handleGoToProductPage = (id: string) => {
-    router.push(`/products/${id}`);
+    router.push(`/products/${id.split('#')[0]}`);
   };
 
   const handleContinueShopping = () => {
