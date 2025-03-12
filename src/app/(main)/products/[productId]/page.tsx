@@ -23,6 +23,9 @@ export default function ProductDetailPage() {
     {} as any
   );
 
+  const [showTooltip, setShowTooltip] = useState(false);
+  const [tooltipKey, setTooltipKey] = useState('');
+
   useEffect(() => {
     getProduct();
   }, []);
@@ -74,7 +77,7 @@ export default function ProductDetailPage() {
         <main className='flex flex-col w-full'>
           <button
             onClick={() => router.back()}
-            className='flex items-center text-blue-500 hover:text-blue-700 mb-6'
+            className='absolute top-31 left-31 z-20'
           >
             <Image
               src={'/arrow-left.svg'}
@@ -86,8 +89,8 @@ export default function ProductDetailPage() {
           </button>
 
           {product && (
-            <div className='grid grid-cols-1 md:grid-cols-2 bg-white rounded-lg shadow-md'>
-              <div className='bg-white p-4'>
+            <div className='grid grid-cols-1 md:grid-cols-2 bg-white rounded-md shadow-md'>
+              <div className='p-4'>
                 <div className='relative h-80 w-full'>
                   <Image
                     src='/bicycle.svg'
@@ -97,7 +100,7 @@ export default function ProductDetailPage() {
                   />
                 </div>
 
-                <div className='bg-white p-6'>
+                <div className='p-6'>
                   <p className='text-gray-700 mb-6'>{product.description}</p>
 
                   <div className='border-t border-gray-200 pt-4 mb-6'>
@@ -116,11 +119,11 @@ export default function ProductDetailPage() {
                       product.status !== ProductStatus.Active ||
                       product.stock === 0
                     }
-                    className={`w-full py-3 px-4 rounded-md font-medium cursor-pointer ${
+                    className={`w-full py-3 px-4 rounded-md font-medium ${
                       product.status === ProductStatus.Active &&
                       product.stock > 0
-                        ? 'bg-blue-500 hover:bg-blue-600 text-white'
-                        : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                        ? 'bg-blue-500 hover:bg-blue-600 text-white cursor-pointer'
+                        : 'bg-gray-300 text-gray-500'
                     }`}
                   >
                     {product.status === ProductStatus.Active &&
@@ -131,7 +134,7 @@ export default function ProductDetailPage() {
                 </div>
               </div>
 
-              <div className='bg-white p-6'>
+              <div className='p-6'>
                 <div className='flex justify-between items-start'>
                   <h1 className='text-2xl font-bold text-gray-800 mb-2'>
                     {product.name}
@@ -150,8 +153,8 @@ export default function ProductDetailPage() {
 
                 <div className='text-sm text-gray-500 mb-4'>
                   {product.stock > 0
-                    ? `${product.stock} available units`
-                    : 'Sin stock'}
+                    ? `Stock: ${product.stock} available units`
+                    : 'Without stock'}
                 </div>
 
                 <div className='border-t border-gray-200 my-4'></div>
@@ -161,6 +164,7 @@ export default function ProductDetailPage() {
                     <h2 className='text-lg font-semibold text-gray-800'>
                       Customization
                     </h2>
+
                     {Object.entries(customizationsByType)?.map(
                       ([type, customizations]) => (
                         <div key={type}>
@@ -175,27 +179,55 @@ export default function ProductDetailPage() {
                           <div className='flex flex-wrap gap-2'>
                             {customizations.map(
                               (customization: ProductCustomization) => (
-                                <button
+                                <div
                                   key={customization.id}
-                                  onClick={() =>
-                                    handleSelectCustomization(
-                                      type,
-                                      customization
-                                    )
-                                  }
-                                  className={`px-3 py-2 text-sm rounded-md border cursor-pointer ${
-                                    selectedCustomizations[type]
-                                      ?.customizationId === customization.id
-                                      ? 'border-blue-500 bg-blue-50 text-blue-700'
-                                      : 'border-gray-300 text-gray-700 hover:bg-gray-50'
-                                  }`}
+                                  className='relative'
                                 >
-                                  {customization.name}
+                                  {showTooltip &&
+                                    tooltipKey === customization.id &&
+                                    customization.stock < 1 && (
+                                      <div className='absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-gray-500 text-white px-2 py-1 rounded w-42 text-center text-sm'>
+                                        Temporary out of stock
+                                        <div className='absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-500'></div>
+                                      </div>
+                                    )}
 
-                                  {customization.price &&
-                                    customization.price > 0 &&
-                                    ` (+${customization.price.toFixed(2)}€)`}
-                                </button>
+                                  <button
+                                    key={'button-' + customization.id}
+                                    onClick={() =>
+                                      customization.stock > 0 &&
+                                      handleSelectCustomization(
+                                        type,
+                                        customization
+                                      )
+                                    }
+                                    className={`px-3 py-2 text-sm rounded-md border ${
+                                      selectedCustomizations[type]
+                                        ?.customizationId === customization.id
+                                        ? 'border-blue-500 bg-blue-50 text-blue-700'
+                                        : 'border-gray-300 text-gray-700 hover:bg-gray-50'
+                                    } ${
+                                      customization.stock < 1
+                                        ? 'opacity-50'
+                                        : 'cursor-pointer'
+                                    }`}
+                                    onMouseEnter={() => {
+                                      setTooltipKey(customization.id);
+                                      setShowTooltip(true);
+                                    }}
+                                    onMouseLeave={() => {
+                                      setTooltipKey(customization.id);
+                                      setShowTooltip(false);
+                                    }}
+                                  >
+                                    {customization.name}
+
+                                    {customization.price &&
+                                    customization.price > 0
+                                      ? ` (+${customization.price.toFixed(2)}€)`
+                                      : ''}
+                                  </button>
+                                </div>
                               )
                             )}
                           </div>
