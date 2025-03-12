@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { productService } from '../../../../api/productService';
 import StatusBadge from '../../../../components/StatusBadge';
+import { useCart } from '../../../../context/CartContext';
 import { Product, ProductStatus } from '../../../../types/product';
 import {
   ProductCustomization,
@@ -15,6 +16,7 @@ import { ProhibitedCustomization } from '../../../../types/prohibited-customizat
 export default function ProductDetailPage() {
   const router = useRouter();
   const { productId } = useParams();
+  const { addToCart } = useCart();
 
   const [product, setProduct] = useState<Product | null>(null);
   const [prohibitedCustomizations, setProhibitedCustomizations] = useState<
@@ -60,6 +62,25 @@ export default function ProductDetailPage() {
         setProhibitedCustomizations(response ?? []);
       });
   };
+
+  const handleAddToCart = (item: Product) => {
+    addToCart({
+      ...item,
+      id: productId + '#' + item.stock,
+      customizations:
+        Object.values(selectedCustomizations).map(
+          (item: any) => item.customizationId
+        ) ?? [],
+      totalPrice: totalPrice,
+      quantity: 1,
+    });
+
+    router.push('/cart');
+  };
+
+  // Reduce stock with the cart items
+
+  // Check all required customizations before adding to cart
 
   const handleSelectCustomization = (
     type: string,
@@ -190,16 +211,19 @@ export default function ProductDetailPage() {
                   </div>
 
                   <button
-                    disabled={
-                      product.status !== ProductStatus.Active ||
-                      product.stock === 0
-                    }
                     className={`w-full py-3 px-4 rounded-md font-medium ${
                       product.status === ProductStatus.Active &&
                       product.stock > 0
                         ? 'bg-blue-500 hover:bg-blue-600 text-white cursor-pointer'
                         : 'bg-gray-300 text-gray-500'
                     }`}
+                    disabled={
+                      product.status !== ProductStatus.Active ||
+                      product.stock === 0
+                    }
+                    onClick={() => {
+                      handleAddToCart(product);
+                    }}
                   >
                     {product.status === ProductStatus.Active &&
                     product.stock > 0

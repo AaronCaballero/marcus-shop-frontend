@@ -10,7 +10,7 @@ export interface Product extends Timestampable {
   status: ProductStatus;
   stock: number;
   isCustomizable: boolean;
-  customizations?: ProductCustomization[];
+  customizations?: ProductCustomization[] | string[];
   groupedCustomizations?: { [key: string]: ProductCustomization[] } | {};
 }
 
@@ -22,6 +22,7 @@ export interface CreateProduct {
   status: ProductStatus;
   stock: number;
   isCustomizable: boolean;
+  customizations?: ProductCustomization[];
 }
 
 export enum ProductCategory {
