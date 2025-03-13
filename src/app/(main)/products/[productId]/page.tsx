@@ -11,8 +11,8 @@ import { Product, ProductStatus } from '../../../../types/product';
 import {
   ProductCustomization,
   ProductCustomizationTypesNames,
-} from '../../../../types/product-customization';
-import { ProhibitedCustomization } from '../../../../types/prohibited-customization';
+} from '../../../../types/productCustomization';
+import { ProhibitedCustomization } from '../../../../types/prohibitedCustomization';
 
 export default function ProductDetailPage() {
   const router = useRouter();

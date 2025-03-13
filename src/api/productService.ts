@@ -2,8 +2,8 @@ import { CreateProduct, Product } from '../types/product';
 import {
   CreateProductCustomization,
   ProductCustomization,
-} from '../types/product-customization';
-import { ProhibitedCustomization } from '../types/prohibited-customization';
+} from '../types/productCustomization';
+import { ProhibitedCustomization } from '../types/prohibitedCustomization';
 import { httpService } from './httpService';
 
 const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/product`;
@@ -53,6 +53,17 @@ export const productService = {
     }
   },
 
+  async getAllCustomizations(): Promise<ProductCustomization[] | null> {
+    try {
+      const url = `${API_URL}/customization`;
+
+      return (await httpService.get(url)) as ProductCustomization[];
+    } catch (error) {
+      console.error('Error getting products customizations:', error);
+      return null;
+    }
+  },
+
   async createCustomization(
     createCustomization: CreateProductCustomization
   ): Promise<ProductCustomization | null> {
@@ -69,6 +80,22 @@ export const productService = {
     }
   },
 
+  async updateCustomization(
+    customization: ProductCustomization
+  ): Promise<ProductCustomization | null> {
+    try {
+      const url = `${API_URL}/customization/${customization.id}`;
+
+      return (await httpService.patch(
+        url,
+        customization
+      )) as ProductCustomization;
+    } catch (error) {
+      console.error('Error updating the product customization:', error);
+      return null;
+    }
+  },
+
   async getGroupedCustomizations(): Promise<
     { [key: string]: ProductCustomization[] } | {} | null
   > {
@@ -77,7 +104,7 @@ export const productService = {
 
       return await httpService.get(url);
     } catch (error) {
-      console.error('Error getting products:', error);
+      console.error('Error getting grouped product customizations:', error);
       return null;
     }
   },
@@ -90,7 +117,10 @@ export const productService = {
 
       return (await httpService.get(url)) as ProhibitedCustomization[];
     } catch (error) {
-      console.error('Error getting product:', error);
+      console.error(
+        'Error getting prohibited customizations by product:',
+        error
+      );
       return null;
     }
   },

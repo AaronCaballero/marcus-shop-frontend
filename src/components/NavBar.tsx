@@ -13,6 +13,7 @@ export default function NavBar() {
   const centerItemsAdmin = [
     { href: '/admin/#', label: 'Home' },
     { href: '/admin/products', label: 'Products' },
+    { href: '/admin/product-customizations', label: 'Customizations' },
   ];
 
   const rightItems = [{ href: '/admin/products', label: 'Admin' }];

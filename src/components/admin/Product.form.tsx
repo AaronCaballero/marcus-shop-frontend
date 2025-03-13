@@ -8,7 +8,7 @@ import { CreateProduct, newProduct, Product } from '../../types/product';
 import {
   CreateProductCustomization,
   ProductCustomization,
-} from '../../types/product-customization';
+} from '../../types/productCustomization';
 import ProductBasicInfoComponent from './ProductBasicInfoComponent';
 import ProductCustomizationsComponent from './ProductCustomizationsComponent';
 

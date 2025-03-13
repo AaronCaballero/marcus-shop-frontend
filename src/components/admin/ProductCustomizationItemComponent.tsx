@@ -1,7 +1,7 @@
 import {
   ProductCustomization,
   ProductCustomizationTypesNames,
-} from '../../types/product-customization';
+} from '../../types/productCustomization';
 
 interface Props {
   customization: ProductCustomization;

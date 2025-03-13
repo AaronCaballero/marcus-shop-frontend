@@ -1,6 +1,7 @@
+import Image from 'next/image';
 import React, { useState } from 'react';
-import StatusBadge from '../StatusBadge';
 import { Product } from '../../types/product';
+import StatusBadge from '../StatusBadge';
 
 interface AdminProductTableProps {
   products: Product[];
@@ -100,9 +101,10 @@ const AdminProductTable: React.FC<AdminProductTableProps> = ({
                   <td className='py-4 px-4'>
                     <div className='flex items-center'>
                       <div className='h-10 w-10 flex-shrink-0 mr-4 bg-gray-200 rounded-md overflow-hidden relative'>
-                        <img
+                        <Image
                           src='/bicycle.svg'
                           alt={product.name}
+                          fill
                           className='h-full w-full object-cover'
                         />
                       </div>

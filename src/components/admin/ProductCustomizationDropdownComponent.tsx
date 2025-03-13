@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ProductCustomization } from '../../types/product-customization';
+import { ProductCustomization } from '../../types/productCustomization';
 
 interface Props {
   customizations: { [key: string]: ProductCustomization[] } | {};

@@ -6,7 +6,7 @@ import {
   ProductCustomization,
   ProductCustomizationType,
   ProductCustomizationTypesNames,
-} from '../../types/product-customization';
+} from '../../types/productCustomization';
 
 interface Props {
   onAddCustomization: (customization: ProductCustomization) => void;

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ProductCustomization } from '../../types/product-customization';
+import { ProductCustomization } from '../../types/productCustomization';
 import ProductCustomizationCreateComponent from './ProductCustomizationCreateComponent';
 import ProductCustomizationDropdownComponent from './ProductCustomizationDropdownComponent';
 import ProductCustomizationItem from './ProductCustomizationItemComponent';

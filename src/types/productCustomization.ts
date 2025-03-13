@@ -8,6 +8,7 @@ export interface ProductCustomization extends Timestampable {
   price?: number;
   category: ProductCategory;
   type: ProductCustomizationType;
+  status: ProductCustomizationStatus;
   stock: number;
   isRequired: boolean;
 }
@@ -18,6 +19,7 @@ export interface CreateProductCustomization {
   price: number;
   category?: ProductCategory;
   type?: ProductCustomizationType;
+  status?: ProductCustomizationStatus;
   stock: number;
   isRequired: boolean;
 }
@@ -32,6 +34,12 @@ export enum ProductCustomizationType {
   Size = 'size',
   Material = 'material',
   AditionalFeature = 'aditional_feature',
+}
+
+export enum ProductCustomizationStatus {
+  Active = 'active',
+  Discontinued = 'discontinued',
+  TemporarilyOutOfStock = 'temporarily_out_of_stock',
 }
 
 export const ProductCustomizationTypesNames = {

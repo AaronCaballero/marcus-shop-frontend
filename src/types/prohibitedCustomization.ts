@@ -1,4 +1,4 @@
-import { ProductCustomization } from './product-customization';
+import { ProductCustomization } from './productCustomization';
 import { Timestampable } from './utils';
 
 export interface ProhibitedCustomization extends Timestampable {
