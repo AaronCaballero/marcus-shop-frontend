@@ -27,8 +27,12 @@ const ProductCard: React.FC<CardProps> = ({ product }) => {
           {product.name}
         </h3>
 
-        <p className='text-gray-600 text-sm mb-3 line-clamp-2'>
-          {product.description}
+        <p
+          className={`text-gray-600 text-sm mb-3 line-clamp-2 ${
+            !product.description && 'text-white'
+          }`}
+        >
+          {product.description || '-'}
         </p>
 
         <div className='flex justify-end items-center'>
