@@ -10,7 +10,7 @@ export interface Product extends Timestampable {
   status: ProductStatus;
   stock: number;
   isCustomizable: boolean;
-  customizations?: ProductCustomization[] | string[];
+  customizations?: ProductCustomization[];
   groupedCustomizations?: { [key: string]: ProductCustomization[] } | {};
 }
 

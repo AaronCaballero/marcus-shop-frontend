@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { productService } from '../../api/productService';
-import { CreateProduct, newProduct } from '../../types/product';
+import { CreateProduct, newProduct, Product } from '../../types/product';
 import {
   CreateProductCustomization,
   ProductCustomization,
@@ -25,7 +25,7 @@ const ProductForm: React.FC<Props> = ({ productId, editable = false }) => {
     { [key: string]: ProductCustomization[] } | {}
   >({});
 
-  const [product, setProduct] = useState<CreateProduct | any>(newProduct());
+  const [product, setProduct] = useState<CreateProduct>(newProduct());
 
   useEffect(() => {
     getGroupedCustomizations();
@@ -97,11 +97,11 @@ const ProductForm: React.FC<Props> = ({ productId, editable = false }) => {
     if (!validateForm()) return;
 
     try {
-      let newProduct = product;
+      let newProduct = product as Product;
       if (editMode && productId) {
         // await productService.update(productId, product);
       } else {
-        newProduct = await productService.create(product);
+        newProduct = (await productService.create(product)) as Product;
       }
 
       router.push(`/admin/products/${newProduct.id}`);

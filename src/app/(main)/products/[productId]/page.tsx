@@ -84,9 +84,9 @@ export default function ProductDetailPage() {
       ...item,
       id: productId + '#' + stock,
       customizations:
-        Object.values(selectedCustomizations).map(
-          (item: any) => item.customizationId
-        ) ?? [],
+        (Object.values(selectedCustomizations).map((item: any) => {
+          return { id: item.id, name: item.name, price: item.price };
+        }) as ProductCustomization[]) ?? [],
       totalPrice: totalPrice,
       quantity: 1,
     });
@@ -102,36 +102,36 @@ export default function ProductDetailPage() {
     type: string,
     customization: ProductCustomization
   ) => {
-    if (selectedCustomizations[type]?.customizationId === customization.id) {
+    if (selectedCustomizations[type]?.id === customization.id) {
       setSelectedCustomizations({
         ...selectedCustomizations,
-        [type]: { customizationId: null, price: 0 },
+        [type]: { id: null, name: '', price: 0 },
       });
     } else {
       setSelectedCustomizations({
         ...selectedCustomizations,
         [type]: {
-          customizationId: customization.id,
+          id: customization.id,
+          name: customization.name,
           price: customization.price,
         },
       });
     }
   };
 
-  const getProhibitedCombinations = (customizationId: string): string[] => {
+  const getProhibitedCombinations = (id: string): string[] => {
     return prohibitedCustomizations
-      .filter((item) => item.customizationIds?.includes(customizationId))
+      .filter((item) => item.customizationIds?.includes(id))
       .flatMap(
-        (item) =>
-          item.customizationIds?.filter((id) => id !== customizationId) || []
+        (item) => item.customizationIds?.filter((id) => id !== id) || []
       );
   };
 
   const handleProhibitedCustomizations = () => {
     const blockCustomizations = Object.values(selectedCustomizations).flatMap(
       (customization: any) => {
-        const res = getProhibitedCombinations(customization.customizationId);
-        return customization.customizationId ? res : [];
+        const res = getProhibitedCombinations(customization.id);
+        return customization.id ? res : [];
       }
     );
 
@@ -313,8 +313,8 @@ export default function ProductDetailPage() {
                                       )
                                     }
                                     className={`px-3 py-2 text-sm rounded-md border ${
-                                      selectedCustomizations[type]
-                                        ?.customizationId === customization.id
+                                      selectedCustomizations[type]?.id ===
+                                      customization.id
                                         ? 'border-blue-500 bg-blue-50 text-blue-700'
                                         : 'border-gray-300 text-gray-700 hover:bg-gray-50'
                                     } ${

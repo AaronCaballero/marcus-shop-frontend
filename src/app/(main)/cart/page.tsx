@@ -20,6 +20,7 @@ export default function CartPage() {
   const [total, setTotal] = useState<number>(0);
 
   useEffect(() => {
+    console.log(cartItems)
     calculateTotals();
     getProducts();
   }, [cartItems]);
@@ -101,7 +102,7 @@ export default function CartPage() {
 
               <button
                 onClick={handleContinueShopping}
-                className='py-3 px-6 bg-blue-500 hover:bg-blue-600 text-white rounded-md font-medium'
+                className='py-3 px-6 bg-blue-500 hover:bg-blue-600 text-white rounded-md font-medium cursor-pointer'
               >
                 Continue Shopping
               </button>
@@ -173,12 +174,12 @@ export default function CartPage() {
                               </p>
 
                               <div className='flex flex-wrap gap-2 mt-1'>
-                                {item.customizations.map((customId) => (
+                                {item.customizations.map((customization) => (
                                   <span
-                                    key={customId as string}
+                                    key={customization.id}
                                     className='px-2 py-1 text-xs bg-blue-50 text-blue-700 rounded-md'
                                   >
-                                    {customId as string}
+                                    {`${customization.name} (+${customization?.price?.toFixed(2)}€)`}
                                   </span>
                                 ))}
                               </div>
