@@ -2,35 +2,48 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-First, run the development server:
+First, to run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3001](http://localhost:3001) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Frontend Guideline
 
-## Learn More
+1. Install Next.js
+2. Create a Next.js project
+3. Create HTTP service
+4. Create a product service
+5. Create navbar
+6. Create a product component
+7. Create product page
+8. Create product page
+9. Add tootip out of stock
+    (silver rims)
+10. Add prohibited customizations management 
+    (select red color -> small size in Bicycle Model A)
+11. Add CartContext
+12. Add cart page
+13. Add admin page
+14. Add product page (admin)
+15. Add product page (admin)
+16. Remove redundant content and adjust
+17. Modify footer
+18. Remove redundant content
 
-To learn more about Next.js, take a look at the following resources:
+Comments:
+    - Cart id: productId + '#' + stock (to differentiate between products 
+        with the same id and different customizations)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Improvements:
+    - Check mandatory customizations.
+    - Include categories in product management (admin)
+    - Implement toast instead of alert
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Testing (Product A):
+    - Check stock of products (any, looks easy).
+    - Check stock of customizations (Aluminum Frame = 2, Carbon Wheels = 3)
+    - Check combination bans (Carbon Wheels + Titanium Chain, Red Color + Small Size)
