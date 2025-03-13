@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
-import { Product } from '../../../types/product';
+import { Product } from '../../types/product';
 
 interface GridProps {
   products: Product[];

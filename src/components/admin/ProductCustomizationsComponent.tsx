@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { ProductCustomization } from '../../types/product-customization';
 import ProductCustomizationCreateComponent from './ProductCustomizationCreateComponent';
 import ProductCustomizationDropdownComponent from './ProductCustomizationDropdownComponent';
-import ProductCustomizationItem from './ProductCustomizationItem';
+import ProductCustomizationItem from './ProductCustomizationItemComponent';
 
 interface Props {
   isCustomizable: boolean;

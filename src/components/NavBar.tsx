@@ -26,7 +26,7 @@ export default function NavBar() {
             <div className='flex-1 flex items-center'>
               <Link
                 href='/'
-                className='text-2xl font-bold text-gray-800 hover:text-gray-600 transition duration-300'
+                className='text-2xl font-bold text-gray-800 hover:text-blue-600 transition duration-300'
               >
                 Marcus Shop
               </Link>

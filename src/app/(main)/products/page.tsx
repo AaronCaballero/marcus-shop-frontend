@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { productService } from '../../../api/productService';
+import ProductGrid from '../../../components/main/ProductCardGridComponent';
 import { Product } from '../../../types/product';
-import ProductGrid from './ProductCardGrid';
 
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
