@@ -35,14 +35,12 @@ const ProductForm: React.FC<Props> = ({ productId, editable = false }) => {
 
   const getProduct = (productId: string) => {
     productService.getOne(productId).then((response) => {
-      console.log(response);
       if (response) setProduct({ ...response });
     });
   };
 
   const getGroupedCustomizations = () => {
     productService.getGroupedCustomizations().then((response) => {
-      console.log(response);
       if (response) setGroupedCustomizations({ ...response });
     });
   };
@@ -96,19 +94,14 @@ const ProductForm: React.FC<Props> = ({ productId, editable = false }) => {
 
     if (!validateForm()) return;
 
-    try {
-      let newProduct = product as Product;
-      if (editMode && productId) {
-        // await productService.update(productId, product);
-      } else {
-        newProduct = (await productService.create(product)) as Product;
-      }
-
-      router.push(`/admin/products/${newProduct.id}`);
-    } catch (error) {
-      console.error('Error saving product:', error);
-    } finally {
+    let newProduct = product as Product;
+    if (editMode && productId) {
+      // await productService.update(productId, product);
+    } else {
+      newProduct = (await productService.create(product)) as Product;
     }
+
+    router.push(`/admin/products/${newProduct.id}`);
   };
 
   return (

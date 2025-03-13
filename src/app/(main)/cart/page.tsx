@@ -6,7 +6,6 @@ import { useEffect, useState } from 'react';
 import { productService } from '../../../api/productService';
 import StatusBadge from '../../../components/StatusBadge';
 import { useCart } from '../../../context/CartContext';
-import { CartItem } from '../../../types/cart';
 import { Product } from '../../../types/product';
 
 export default function CartPage() {
@@ -20,7 +19,6 @@ export default function CartPage() {
   const [total, setTotal] = useState<number>(0);
 
   useEffect(() => {
-    console.log(cartItems)
     calculateTotals();
     getProducts();
   }, [cartItems]);
@@ -42,29 +40,7 @@ export default function CartPage() {
   };
 
   const handleQuantityChange = (id: string, newQuantity: number) => {
-    const cartItemId = id.split('#')[0];
-
-    const cartItemStock = cartItems.reduce((total: number, item: CartItem) => {
-      return item.id.split('#')[0] === cartItemId
-        ? total + item.quantity
-        : total;
-    }, 0);
-    const productStock = products.find(
-      (item: any) => item.id === cartItemId
-    )?.stock;
-
-    const isNewQuantityLess =
-      cartItems.find((item: CartItem) => item.id === id)?.quantity! >
-      newQuantity;
-    const isStillStock =
-      cartItemStock > 0 && cartItemStock < (productStock ?? 2);
-
-    //TODO: Also check every customization stock
-
-    if (isNewQuantityLess || isStillStock) {
-      const cartItem: CartItem = cartItems.find((item: any) => item.id === id)!;
-      if (cartItem) updateQuantity(id, newQuantity);
-    }
+    updateQuantity(id, newQuantity);
   };
 
   const handleRemoveItem = (id: string) => {
@@ -179,7 +155,9 @@ export default function CartPage() {
                                     key={customization.id}
                                     className='px-2 py-1 text-xs bg-blue-50 text-blue-700 rounded-md'
                                   >
-                                    {`${customization.name} (+${customization?.price?.toFixed(2)}€)`}
+                                    {`${
+                                      customization.name
+                                    } (+${customization?.price?.toFixed(2)}€)`}
                                   </span>
                                 ))}
                               </div>

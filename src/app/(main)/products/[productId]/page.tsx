@@ -80,23 +80,26 @@ export default function ProductDetailPage() {
   };
 
   const handleAddToCart = (item: Product) => {
-    addToCart({
+    const itemToAdd: CartItem = {
       ...item,
       id: productId + '#' + stock,
       customizations:
-        (Object.values(selectedCustomizations).map((item: any) => {
-          return { id: item.id, name: item.name, price: item.price };
+        (Object.values(selectedCustomizations).map((customization: any) => {
+          return {
+            id: customization.id,
+            name: customization.name,
+            price: customization.price,
+            stock: customization.stock,
+          };
         }) as ProductCustomization[]) ?? [],
       totalPrice: totalPrice,
       quantity: 1,
-    });
+    };
 
-    router.push('/cart');
+    if (addToCart(itemToAdd)) router.push('/cart');
   };
 
   //TODO: Reduce customizations stock with the cart items
-
-  //TODO: Check all required customizations before adding to cart
 
   const handleSelectCustomization = (
     type: string,
@@ -105,7 +108,7 @@ export default function ProductDetailPage() {
     if (selectedCustomizations[type]?.id === customization.id) {
       setSelectedCustomizations({
         ...selectedCustomizations,
-        [type]: { id: null, name: '', price: 0 },
+        [type]: { id: null, name: '', price: 0, stock: 0 },
       });
     } else {
       setSelectedCustomizations({
@@ -114,16 +117,18 @@ export default function ProductDetailPage() {
           id: customization.id,
           name: customization.name,
           price: customization.price,
+          stock: customization.stock,
         },
       });
     }
   };
 
-  const getProhibitedCombinations = (id: string): string[] => {
+  const getProhibitedCombinations = (customizationId: string): string[] => {
     return prohibitedCustomizations
-      .filter((item) => item.customizationIds?.includes(id))
+      .filter((item) => item.customizationIds?.includes(customizationId))
       .flatMap(
-        (item) => item.customizationIds?.filter((id) => id !== id) || []
+        (item) =>
+          item.customizationIds?.filter((id) => id !== customizationId) || []
       );
   };
 
@@ -329,10 +334,7 @@ export default function ProductDetailPage() {
                                       setTooltipKey(customization.id);
                                       setShowTooltip(true);
                                     }}
-                                    onMouseLeave={() => {
-                                      setTooltipKey(customization.id);
-                                      setShowTooltip(false);
-                                    }}
+                                    onMouseLeave={() => setShowTooltip(false)}
                                   >
                                     {customization.name}
 
