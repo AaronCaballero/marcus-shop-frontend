@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import StatusBadge from '../../../../components/StatusBadge';
-import { Product } from '../../../../types/product';
+import StatusBadge from '../StatusBadge';
+import { Product } from '../../types/product';
 
 interface AdminProductTableProps {
   products: Product[];

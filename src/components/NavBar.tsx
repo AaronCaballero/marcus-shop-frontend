@@ -15,7 +15,7 @@ export default function NavBar() {
     { href: '/admin/products', label: 'Products' },
   ];
 
-  const rightItems = [{ href: '/admin', label: 'Admin' }];
+  const rightItems = [{ href: '/admin/products', label: 'Admin' }];
   const rightItemsAdmin = [{ href: '/#', label: 'Customer' }];
 
   return (

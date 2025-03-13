@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { productService } from '../../../../api/productService';
 import { Product } from '../../../../types/product';
-import AdminProductTable from './AdminProductTable';
+import AdminProductTable from '../../../../components/admin/ProductTableComponent';
 
 export default function AdminProductsPage() {
   const router = useRouter();
