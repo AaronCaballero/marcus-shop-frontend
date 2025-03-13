@@ -5,9 +5,9 @@ import { httpService } from './httpService';
 const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/product`;
 
 export const productService = {
-  async create(createProduct: CreateProduct): Promise<any | null> {
+  async create(createProduct: CreateProduct): Promise<Product | null> {
     try {
-      const url = `${API_URL}/create`;
+      const url = `${API_URL}`;
 
       const data = await httpService.post(url, createProduct);
 
@@ -47,7 +47,7 @@ export const productService = {
       const url = `${API_URL}/${productId}`;
 
       const data = await httpService.delete(url);
-      
+
       return data as boolean;
     } catch (error) {
       console.error('Error deleting the product:', error);
