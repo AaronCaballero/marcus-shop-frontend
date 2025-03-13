@@ -12,15 +12,15 @@ export interface ProductCustomization extends Timestampable {
   isRequired: boolean;
 }
 
-// export interface CreateProductCustomization {
-//   name: string;
-//   description?: string;
-//   price?: number;
-//   category: ProductCategory;
-//   type: ProductCustomizationType;
-//   stock: number;
-//   isRequired: boolean;
-// }
+export interface CreateProductCustomization {
+  name: string;
+  description?: string;
+  price: number;
+  category?: ProductCategory;
+  type?: ProductCustomizationType;
+  stock: number;
+  isRequired: boolean;
+}
 
 export enum ProductCustomizationType {
   FrameType = 'frame_type',
@@ -44,4 +44,16 @@ export const ProductCustomizationTypesNames = {
   size: 'Size',
   material: 'Material',
   aditional_feature: 'Aditional feature',
+};
+
+export const newProductCustomization = (): CreateProductCustomization => {
+  return {
+    name: '',
+    description: '',
+    price: 0,
+    category: undefined,
+    type: undefined,
+    stock: 0,
+    isRequired: false,
+  };
 };

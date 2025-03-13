@@ -5,7 +5,7 @@ export interface Product extends Timestampable {
   id: string;
   name: string;
   description?: string;
-  price?: number;
+  price: number;
   category?: ProductCategory;
   status: ProductStatus;
   stock: number;
@@ -17,7 +17,7 @@ export interface Product extends Timestampable {
 export interface CreateProduct {
   name: string;
   description?: string;
-  price?: number;
+  price: number;
   category?: ProductCategory;
   status: ProductStatus;
   stock: number;
@@ -35,3 +35,16 @@ export enum ProductStatus {
   Discontinued = 'discontinued',
   OutOfStock = 'out_of_stock',
 }
+
+export const newProduct = (): CreateProduct => {
+  return {
+    name: '',
+    description: '',
+    price: 0,
+    category: undefined,
+    status: ProductStatus.Active,
+    stock: 0,
+    isCustomizable: false,
+    customizations: [],
+  };
+};

@@ -1,11 +1,13 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { productService } from '../../../../api/productService';
 import { Product } from '../../../../types/product';
 import AdminProductTable from './AdminProductTable';
 
 export default function AdminProductsPage() {
+  const router = useRouter();
   const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
@@ -18,12 +20,16 @@ export default function AdminProductsPage() {
     });
   };
 
+  const handleViewProduct = (product: Product) => {
+    router.push(`/admin/products/${product.id}`);
+  };
+
   const handleCreateProduct = () => {
-    //TODO: productService.create();
+    router.push('/admin/products/create');
   };
 
   const handleEditProduct = (product: Product) => {
-    //TODO: productService.update(product);
+    router.push(`/admin/products/${product.id}/update`);
   };
 
   const handleDeleteProduct = (id: string) => {
@@ -36,6 +42,7 @@ export default function AdminProductsPage() {
         <main className='flex flex-col gap-8 row-start-2 items-center sm:items-start'>
           <AdminProductTable
             products={products}
+            onView={handleViewProduct}
             onCreateNew={handleCreateProduct}
             onEdit={handleEditProduct}
             onDelete={handleDeleteProduct}

@@ -4,6 +4,7 @@ import { Product } from '../../../../types/product';
 
 interface AdminProductTableProps {
   products: Product[];
+  onView: (product: Product) => void;
   onCreateNew: () => void;
   onEdit: (product: Product) => void;
   onDelete: (id: string) => void;
@@ -11,11 +12,21 @@ interface AdminProductTableProps {
 
 const AdminProductTable: React.FC<AdminProductTableProps> = ({
   products,
+  onView,
   onCreateNew,
   onEdit,
   onDelete,
 }) => {
   const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
+
+  const handleItemClick = (product: Product) => {
+    onView(product);
+  };
+
+  const handleEditClick = (product: Product, e: React.MouseEvent) => {
+    e.stopPropagation();
+    onEdit(product);
+  };
 
   const handleDeleteClick = (id: string, e: React.MouseEvent) => {
     e.stopPropagation();
@@ -31,11 +42,6 @@ const AdminProductTable: React.FC<AdminProductTableProps> = ({
   const handleCancelDelete = (e: React.MouseEvent) => {
     e.stopPropagation();
     setConfirmDelete(null);
-  };
-
-  const handleEditClick = (product: Product, e: React.MouseEvent) => {
-    e.stopPropagation();
-    onEdit(product);
   };
 
   return (
@@ -88,8 +94,8 @@ const AdminProductTable: React.FC<AdminProductTableProps> = ({
               products.map((product) => (
                 <tr
                   key={product.id}
-                  className='hover:bg-gray-50'
-                  onClick={() => onEdit(product)}
+                  className='hover:bg-gray-50 cursor-pointer'
+                  onClick={() => handleItemClick(product)}
                 >
                   <td className='py-4 px-4'>
                     <div className='flex items-center'>
