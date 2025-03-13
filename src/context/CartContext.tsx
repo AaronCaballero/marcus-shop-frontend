@@ -8,6 +8,7 @@ import {
   useState,
 } from 'react';
 import { CartContextType, CartItem } from '../types/cart';
+import { ProductCustomizationStatus } from '../types/productCustomization';
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
@@ -145,10 +146,12 @@ const isEnoughCustomizationsStock = (
     return true;
 
   for (const customization of itemToAdd.customizations) {
+    const isTemporarilyOutOfStock =
+      customization.status === ProductCustomizationStatus.TemporarilyOutOfStock;
     const currentUsage = customizationStockUsage[customization.id] || 0;
     const futureUsage = currentUsage + quantityToAdd;
 
-    if (futureUsage > customization.stock) {
+    if (isTemporarilyOutOfStock || (futureUsage > customization.stock)) {
       alert(
         `Not enough stock to add the item "${itemToAdd.name}" to the cart due 
         to the customization "${customization.name}" not enough stock!`

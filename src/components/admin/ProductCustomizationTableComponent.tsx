@@ -24,7 +24,7 @@ const AdminProductCustomizationTable: React.FC<
   };
 
   return (
-    <div className='bg-white rounded-lg shadow-md p-6 xl:min-w-[1000px] max-w-full'>
+    <div className='bg-white rounded-lg shadow-md p-6 xl:min-w-[1100px] max-w-full'>
       <div className='flex justify-between items-center mb-6'>
         <h2 className='text-2xl font-bold text-gray-800'>
           Customizations Management

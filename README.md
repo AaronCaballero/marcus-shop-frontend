@@ -33,6 +33,7 @@ Open [http://localhost:3001](http://localhost:3001) with your browser to see the
 16. Remove redundant content and adjust
 17. Modify footer
 18. Remove redundant content
+19. Add product customization management (admin)
 
 Comments:
     - Cart id: productId + '#' + stock (to differentiate between products 

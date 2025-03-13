@@ -10,6 +10,7 @@ import { CartItem } from '../../../../types/cart';
 import { Product, ProductStatus } from '../../../../types/product';
 import {
   ProductCustomization,
+  ProductCustomizationStatus,
   ProductCustomizationTypesNames,
 } from '../../../../types/productCustomization';
 import { ProhibitedCustomization } from '../../../../types/prohibitedCustomization';
@@ -162,9 +163,11 @@ export default function ProductDetailPage() {
       <>
         {showTooltip &&
           tooltipKey === customization.id &&
-          customization.stock < 1 && (
-            <div className='absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-gray-500 text-white px-2 py-1 rounded w-42 text-center text-sm'>
-              Temporary out of stock
+          (customization.stock < 1 ||
+            customization.status ===
+              ProductCustomizationStatus.TemporarilyOutOfStock) && (
+            <div className='absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-gray-500 text-white px-2 py-1 rounded w-44 text-center text-sm'>
+              Temporarily out of stock
               <div className='absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-500'></div>
             </div>
           )}
@@ -324,6 +327,8 @@ export default function ProductDetailPage() {
                                         : 'border-gray-300 text-gray-700 hover:bg-gray-50'
                                     } ${
                                       customization.stock < 1 ||
+                                      customization.status ===
+                                        ProductCustomizationStatus.TemporarilyOutOfStock ||
                                       blockedCustomizations.includes(
                                         customization.id
                                       )
