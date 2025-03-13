@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
-import { ProductCustomization } from '../../types/productCustomization';
+import {
+  ProductCustomization,
+  ProductCustomizationTypesNames,
+} from '../../types/productCustomization';
+import StatusBadge from '../StatusBadge';
 
 interface AdminProductCustomizationTableProps {
   customizations: ProductCustomization[];
@@ -52,6 +56,10 @@ const AdminProductCustomizationTable: React.FC<
               </th>
 
               <th className='py-3 px-4 text-left text-sm font-medium text-gray-600 uppercase tracking-wider'>
+                Status
+              </th>
+
+              <th className='py-3 px-4 text-left text-sm font-medium text-gray-600 uppercase tracking-wider'>
                 Actions
               </th>
             </tr>
@@ -89,7 +97,17 @@ const AdminProductCustomizationTable: React.FC<
                     </div>
                   </td>
 
-                  <td className='py-4 px-4'>{customization.type}</td>
+                  <td className='py-4 px-4'>
+                    {
+                      ProductCustomizationTypesNames[
+                        customization.type as keyof typeof ProductCustomizationTypesNames
+                      ]
+                    }
+                  </td>
+
+                  <td className='py-4 px-4'>
+                    <StatusBadge status={customization.status} />
+                  </td>
 
                   <td className='py-4 px-4'>
                     <div className='flex items-center space-x-4'>
