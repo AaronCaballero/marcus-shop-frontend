@@ -63,7 +63,7 @@ const ProductCustomizationsComponent: React.FC<Props> = ({
         </h3>
 
         {customizations.length > 0 ? (
-          <div className='space-y-3 max-h-96 overflow-y-auto'>
+          <div className='space-y-3 max-h-100 overflow-y-auto'>
             {customizations.map((custom) => (
               <ProductCustomizationItem
                 key={custom.id}
