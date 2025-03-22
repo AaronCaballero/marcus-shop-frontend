@@ -28,7 +28,7 @@ export default function ProductDetailPage() {
   const [totalPrice, setTotalPrice] = useState<number>(0);
 
   const [customizationsByType, setCustomizationsByType] = useState<
-    { [key: string]: ProductCustomization[] } | {}
+    { [key: string]: ProductCustomization[] } | object
   >({});
   const [selectedCustomizations, setSelectedCustomizations] = useState(
     {} as any
@@ -77,7 +77,7 @@ export default function ProductDetailPage() {
         : total;
     }, 0);
 
-    setStock(product?.stock! - cartItemStock);
+    setStock((product?.stock ?? 0) - cartItemStock || 0);
   };
 
   const handleAddToCart = (item: Product) => {

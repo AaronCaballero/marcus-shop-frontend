@@ -7,7 +7,7 @@ import ProductCustomizationItem from './ProductCustomizationItemComponent';
 interface Props {
   isCustomizable: boolean;
   customizations: ProductCustomization[];
-  groupedCustomizations: { [key: string]: ProductCustomization[] } | {};
+  groupedCustomizations: { [key: string]: ProductCustomization[] } | object;
   onAddCustomization: (customization: ProductCustomization) => void;
   onRemoveCustomization: (id: string) => void;
   showAdd?: boolean;

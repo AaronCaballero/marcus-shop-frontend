@@ -8,7 +8,7 @@ export default function Home() {
           <div className='flex flex-col gap-10 items-center'>
             <h2 className='font-bold text-6xl text-blue-600'>Marcus Shop</h2>
 
-            <p>Your Bicycle & future all 'type of products' shop</p>
+            <p>Your Bicycle &amp; future all &apos;type of products&apos; shop</p>
           </div>
         </main>
       </div>

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { ProductCustomization } from '../../types/productCustomization';
 
 interface Props {
-  customizations: { [key: string]: ProductCustomization[] } | {};
+  customizations: { [key: string]: ProductCustomization[] } | object;
   onAddCustomization: (customization: ProductCustomization) => void;
   onCreateNew: () => void;
 }
@@ -63,7 +63,7 @@ const ProductCustomizationDropdownComponent: React.FC<Props> = ({
 
       <div className='w-1/4 flex justify-end items-end'>
         <button
-          onClick={(e) => onCreateNew()}
+          onClick={() => onCreateNew()}
           className='w-auto h-auto py-2 px-4 bg-blue-500 hover:bg-blue-600 text-white rounded-md disabled:bg-blue-300 cursor-pointer'
         >
           Create new

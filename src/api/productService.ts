@@ -97,7 +97,7 @@ export const productService = {
   },
 
   async getGroupedCustomizations(): Promise<
-    { [key: string]: ProductCustomization[] } | {} | null
+    { [key: string]: ProductCustomization[] } | object | null
   > {
     try {
       const url = `${API_URL}/customization/grouped`;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   ProductCustomization,
   ProductCustomizationTypesNames,
@@ -13,8 +13,6 @@ interface AdminProductCustomizationTableProps {
 const AdminProductCustomizationTable: React.FC<
   AdminProductCustomizationTableProps
 > = ({ customizations, onMarkOutOfStock }) => {
-  const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
-
   const handleMarkOutOfStock = (
     customization: ProductCustomization,
     e: React.MouseEvent

@@ -19,10 +19,10 @@ interface Props {
 
 const ProductForm: React.FC<Props> = ({ productId, editable = false }) => {
   const router = useRouter();
-  const [editMode, setEditMode] = useState<boolean>(editable);
+  const [editMode] = useState<boolean>(editable);
   const [clickedSubmit, setClickedSubmit] = useState<boolean>(false);
   const [groupedCustomizations, setGroupedCustomizations] = useState<
-    { [key: string]: ProductCustomization[] } | {}
+    { [key: string]: ProductCustomization[] } | object
   >({});
 
   const [product, setProduct] = useState<CreateProduct>(newProduct());

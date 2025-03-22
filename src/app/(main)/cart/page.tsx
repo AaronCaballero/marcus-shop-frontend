@@ -3,16 +3,12 @@
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { productService } from '../../../api/productService';
 import StatusBadge from '../../../components/StatusBadge';
 import { useCart } from '../../../context/CartContext';
-import { Product } from '../../../types/product';
 
 export default function CartPage() {
   const router = useRouter();
   const { cartItems, updateQuantity, removeFromCart, clearCart } = useCart();
-
-  const [products, setProducts] = useState<Product[]>([]);
 
   const [subtotal, setSubtotal] = useState<number>(0);
   const [shippingCost] = useState<number>(9.99);
@@ -20,14 +16,7 @@ export default function CartPage() {
 
   useEffect(() => {
     calculateTotals();
-    getProducts();
   }, [cartItems]);
-
-  const getProducts = () => {
-    productService.getAll().then((response) => {
-      setProducts(response ?? []);
-    });
-  };
 
   const calculateTotals = () => {
     const itemsSubtotal = cartItems.reduce(

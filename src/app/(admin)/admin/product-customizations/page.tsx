@@ -1,6 +1,5 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { productService } from '../../../../api/productService';
 import AdminProductCustomizationTable from '../../../../components/admin/ProductCustomizationTableComponent';
@@ -10,7 +9,6 @@ import {
 } from '../../../../types/productCustomization';
 
 export default function AdminProductsPage() {
-  const router = useRouter();
   const [customizations, setCustomizations] = useState<ProductCustomization[]>(
     []
   );
