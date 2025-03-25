@@ -125,12 +125,21 @@ export default function ProductDetailPage() {
   };
 
   const getProhibitedCombinations = (customizationId: string): string[] => {
-    return prohibitedCustomizations
-      .filter((item) => item.customizationIds?.includes(customizationId))
-      .flatMap(
-        (item) =>
-          item.customizationIds?.filter((id) => id !== customizationId) || []
-      );
+    // return prohibitedCustomizations
+    //   .filter((item) => item.customizationIds?.includes(customizationId))
+    //   .flatMap(
+    //     (item) =>
+    //       item.customizationIds?.filter((id) => id !== customizationId) || []
+    //   );
+
+    return prohibitedCustomizations.reduce<string[]>((combiantions, item) => {
+      if (item.customizationIds?.includes(customizationId)) {
+        combiantions.push(
+          ...item.customizationIds.filter((id) => id !== customizationId)
+        );
+      }
+      return combiantions;
+    }, []);
   };
 
   const handleProhibitedCustomizations = () => {
