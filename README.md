@@ -12,7 +12,7 @@ I choose this stack because it is what I currently use in my projects and my dai
 First, to run the development server:
 
 ```bash
-npm run dev
+$ docker-compose up -d
 ```
 
 Open [http://localhost:3001](http://localhost:3001) with your browser to see the result.
