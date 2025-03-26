@@ -1,0 +1,11 @@
+services:
+  marcus-shop-frontend:
+    container_name: marcus-shop-frontend
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=development
+      - PORT=3001
